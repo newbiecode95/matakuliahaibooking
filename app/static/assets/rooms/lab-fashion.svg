@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Ilustrasi Lab Fashion IDB Bali">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F1E4D1"/><stop offset="1" stop-color="#E4D3BA"/></linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#CDB697"/><stop offset="1" stop-color="#BBA17F"/></linearGradient>
+    <linearGradient id="light" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFF8E7" stop-opacity=".85"/><stop offset="1" stop-color="#FFF8E7" stop-opacity="0"/></linearGradient>
+    <linearGradient id="fabric1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1C6B7A"/><stop offset="1" stop-color="#14515C"/></linearGradient>
+    <linearGradient id="fabric2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#E2A03A"/><stop offset="1" stop-color="#C28124"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".045"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#wall)"/>
+  <rect y="356" width="800" height="144" fill="url(#floor)"/>
+  <g opacity=".3" stroke="#A98F6C" stroke-width="1"><path d="M0 356h800M0 406h800M0 456h800M180 356l-46 144M400 356v144M620 356l46 144"/></g>
+  <g>
+    <rect x="60" y="62" width="180" height="230" rx="6" fill="#C4AF8F"/>
+    <rect x="70" y="72" width="160" height="210" fill="url(#light)"/>
+    <path d="M70 72h160v210H70z" fill="#F9EFDC" opacity=".55"/>
+    <path d="M150 72v210M70 200h160" stroke="#B49C77" stroke-width="7"/>
+    <path d="M70 282 170 356H60z" fill="#FFF8E7" opacity=".3"/>
+  </g>
+  <g>
+    <rect x="386" y="112" width="280" height="150" rx="4" fill="#D8C4A4"/>
+    <path d="M398 250c46-18 78-56 122-48 34 6 54 28 134 20v32H398z" fill="#C9B18D"/>
+    <path d="M430 112v150M586 112v150M386 190h280" stroke="#B49C77" stroke-width="3" opacity=".5"/>
+    <g fill="#1C6B7A" opacity=".75"><circle cx="470" cy="160" r="3"/><circle cx="530" cy="160" r="3"/><circle cx="470" cy="222" r="3"/><circle cx="530" cy="222" r="3"/></g>
+  </g>
+  <g>
+    <rect x="86" y="318" width="250" height="18" rx="4" fill="#B99C74"/>
+    <rect x="86" y="336" width="250" height="8" fill="#967B55"/>
+    <rect x="104" y="344" width="10" height="90" fill="#7E6444"/>
+    <rect x="306" y="344" width="10" height="90" fill="#7E6444"/>
+    <g>
+      <rect x="120" y="266" width="90" height="52" rx="4" fill="#F3E9D6"/>
+      <rect x="134" y="250" width="62" height="20" rx="6" fill="#1C6B7A"/>
+      <rect x="146" y="236" width="10" height="20" fill="#E2A03A"/>
+      <circle cx="165" cy="288" r="10" fill="#B99C74"/>
+      <path d="M150 318v-14h30v14" fill="#E2A03A" opacity=".5"/>
+    </g>
+    <g>
+      <rect x="230" y="272" width="70" height="46" rx="4" fill="#F3E9D6"/>
+      <rect x="240" y="258" width="50" height="16" rx="4" fill="#E2A03A"/>
+      <path d="M262 300h16v18h-16z" fill="#B99C74"/>
+      <circle cx="270" cy="286" r="7" fill="#1C6B7A"/>
+    </g>
+  </g>
+  <g>
+    <path d="M420 356c0-92 26-166 68-166s68 74 68 166z" fill="#F6EEDD" stroke="#D3BE9C" stroke-width="2"/>
+    <path d="M458 356c0-56 8-98 30-98s30 42 30 98z" fill="#E9DCC5"/>
+    <path d="M488 258c-12 0-20-12-20-28s8-26 20-26 20 10 20 26-8 28-20 28z" fill="#D8C7AB"/>
+    <rect x="482" y="204" width="12" height="30" fill="#BBA382"/>
+    <path d="M432 342h112l8 14H424z" fill="#8E6F49"/>
+    <path d="M488 258v98M462 300h52" stroke="#D3BE9C" stroke-width="2"/>
+    <path d="M470 300c-8 18-8 38 0 56M506 300c8 18 8 38 0 56" stroke="#D3BE9C" stroke-width="2" fill="none"/>
+  </g>
+  <g>
+    <path d="M626 356c0-78 22-138 56-138s56 60 56 138z" fill="url(#fabric1)" opacity=".92"/>
+    <path d="M658 320c0-46 6-82 24-82s24 36 24 82z" fill="#2B7B89"/>
+    <path d="M682 238c-9 0-16-9-16-22s7-20 16-20 16 7 16 20-7 22-16 22z" fill="#D8C7AB"/>
+    <path d="M634 344h96l6 12h-108z" fill="#7E6444"/>
+    <path d="M682 238v106" stroke="#79ACB3" stroke-width="2" opacity=".7"/>
+  </g>
+  <g>
+    <rect x="566" y="70" width="150" height="14" rx="5" fill="#8E6F49"/>
+    <path d="M572 84h10v210h-10zM700 84h10v210h-10z" stroke="#8E6F49" stroke-width="2"/>
+    <g>
+      <path d="M590 84c0 40-20 60-20 96s20 50 20 90h-28c0-40-14-54-14-90s14-56 14-96z" fill="url(#fabric2)"/>
+      <path d="M630 84c0 34 16 52 16 86s-16 48-16 86h-26c0-38-12-52-12-86s12-52 12-86z" fill="url(#fabric1)"/>
+      <path d="M670 84c0 44 18 64 18 100s-18 52-18 88h-22c0-36-14-52-14-88s14-56 14-100z" fill="#D8C4A4"/>
+    </g>
+  </g>
+  <g>
+    <rect x="470" y="98" width="120" height="46" rx="6" fill="#1C6B7A"/>
+    <circle cx="492" cy="121" r="9" fill="#E2A03A"/>
+    <rect x="508" y="112" width="60" height="6" rx="3" fill="#F6EEDD" opacity=".8"/>
+    <rect x="508" y="126" width="42" height="5" rx="2" fill="#F6EEDD" opacity=".55"/>
+  </g>
+  <rect width="800" height="500" filter="url(#grain)" opacity=".5"/>
+</svg>

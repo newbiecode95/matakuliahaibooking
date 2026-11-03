@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Ilustrasi Halaman Padmasana IDB Bali">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F8DFC4"/><stop offset=".55" stop-color="#F6E9D4"/><stop offset="1" stop-color="#EFE2C9"/></linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F5B353" stop-opacity=".95"/><stop offset="1" stop-color="#F5B353" stop-opacity="0"/></linearGradient>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#D8C9AE"/><stop offset="1" stop-color="#C5B291"/></linearGradient>
+    <linearGradient id="tower" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#225E69"/><stop offset="1" stop-color="#163F48"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".045"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="620" cy="150" r="150" fill="url(#sun)" opacity=".55"/>
+  <circle cx="620" cy="150" r="56" fill="#F7C56D" opacity=".9"/>
+  <path d="M0 360c90-26 160-18 236 4 88 26 174 30 264 6 92-24 190-28 300 2v128H0z" fill="#DCCFB4" opacity=".8"/>
+  <path d="M0 400c120-22 230-12 330 12 110 26 240 24 470-16v104H0z" fill="#CDBD9F" opacity=".55"/>
+  <g opacity=".6">
+    <path d="M40 360c14-64 18-104 44-152 20 54 20 106 10 152z" fill="#3C6D55"/>
+    <path d="M96 360c-12-44-36-78-70-96 8 40 30 78 62 100z" fill="#4C8064"/>
+    <path d="M758 360c-10-58-16-94-38-136-18 48-18 96-8 136z" fill="#3C6D55"/>
+    <path d="M706 360c10-38 30-68 60-84-6 34-26 68-54 88z" fill="#4C8064"/>
+  </g>
+  <g>
+    <ellipse cx="400" cy="425" rx="250" ry="26" fill="#8A7656" opacity=".2" filter="url(#soft)"/>
+    <path d="M180 400h440l-26-46H206z" fill="#CBB999"/>
+    <path d="M206 354h388l-14-26H220z" fill="#D8C7A8"/>
+    <path d="M196 330h408v14H196z" fill="#B9A484"/>
+    <g>
+      <rect x="318" y="196" width="164" height="134" fill="url(#tower)"/>
+      <path d="M318 196h164l-18-26H336z" fill="#103039"/>
+      <path d="M300 170h200l-16-18H316z" fill="#2B6C77"/>
+      <path d="M334 152h132l-14-16H348z" fill="#103039"/>
+      <path d="M356 136h88l-12-14h-64z" fill="#2B6C77"/>
+      <path d="M380 122h40l-8-12h-24z" fill="#E2A03A"/>
+      <rect x="356" y="236" width="88" height="94" rx="44" fill="#0E2C33"/>
+      <path d="M400 236v94" stroke="#2B6C77" stroke-width="3"/>
+      <circle cx="400" cy="286" r="12" fill="#E2A03A"/>
+      <path d="M330 250h28v80h-28zM442 250h28v80h-28z" fill="#0E2C33"/>
+      <rect x="300" y="330" width="200" height="12" fill="#2B6C77"/>
+      <rect x="288" y="342" width="224" height="12" fill="#D8C7A8"/>
+      <g fill="#E2A03A"><circle cx="400" cy="212" r="5"/><circle cx="370" cy="212" r="4"/><circle cx="430" cy="212" r="4"/></g>
+    </g>
+    <g>
+      <rect x="252" y="342" width="46" height="58" rx="4" fill="#E9DDC6"/>
+      <rect x="244" y="336" width="62" height="10" rx="3" fill="#D6C5A6"/>
+      <rect x="502" y="342" width="46" height="58" rx="4" fill="#E9DDC6"/>
+      <rect x="494" y="336" width="62" height="10" rx="3" fill="#D6C5A6"/>
+      <path d="M268 326h14v10h-14zM520 326h14v10h-14z" fill="#B96A2E"/>
+    </g>
+  </g>
+  <g>
+    <path d="M78 404h42l-6 30H84z" fill="#B7A487"/>
+    <path d="M88 404c0-18 6-30 11-30s11 12 11 30z" fill="#4C8064"/>
+    <circle cx="99" cy="366" r="8" fill="#E2A03A"/>
+    <path d="M654 408h42l-6 30h-30z" fill="#B7A487"/>
+    <path d="M664 408c0-18 6-30 11-30s11 12 11 30z" fill="#4C8064"/>
+    <circle cx="675" cy="370" r="8" fill="#E2A03A"/>
+  </g>
+  <g fill="#FBF3E2" opacity=".8"><circle cx="130" cy="74" r="2"/><circle cx="212" cy="54" r="1.6"/><circle cx="300" cy="88" r="2"/><circle cx="472" cy="46" r="1.6"/><circle cx="540" cy="92" r="2"/><circle cx="706" cy="60" r="1.6"/></g>
+  <g stroke="#7E8F78" stroke-width="2" fill="none" opacity=".7"><path d="M174 112c8-6 16-6 24 0M188 104c-2-8 2-14 8-18"/><path d="M614 92c-8-6-16-6-24 0M600 84c2-8-2-14-8-18"/></g>
+  <rect width="800" height="500" filter="url(#grain)" opacity=".5"/>
+</svg>

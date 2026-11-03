@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Logo SIMPENAN">
+  <defs>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#25808F"/><stop offset="1" stop-color="#145361"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F7B24C"/><stop offset="1" stop-color="#E88B22"/>
+    </linearGradient>
+    <clipPath id="disc"><circle cx="256" cy="256" r="238"/></clipPath>
+  </defs>
+  <g clip-path="url(#disc)">
+    <rect width="512" height="512" fill="url(#teal)"/>
+    <path d="M300 -10C262 140 346 210 346 300c0 96-46 168-92 222h268V-10z" fill="url(#amber)"/>
+    <path d="M301 -10C264 142 346 212 346 302c0 94-44 164-84 218" fill="none" stroke="#FDF8EE" stroke-width="26" stroke-linecap="round"/>
+    <path d="M236 486c-24-74-24-138 16-172 40-34 100-12 102 34 2 44-42 66-69 46-16-12-16-34-4-46" fill="none" stroke="#FDF8EE" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M236 486c-2 12 4 20 14 22" fill="none" stroke="#FDF8EE" stroke-width="38" stroke-linecap="round"/>
+  </g>
+</svg>
