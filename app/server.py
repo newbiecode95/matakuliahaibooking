@@ -474,6 +474,30 @@ def register_attempt(ip):
     LOGIN_ATTEMPTS.setdefault(ip, []).append(time.time())
 
 
+SESSION_SECRET = os.environ.get("SIMPENAN_SECRET", "simpenan-session-v1")
+
+
+def make_session_token(account_id):
+    expires = int(time.time()) + SESSION_DAYS * 86400
+    payload = "%d.%d" % (account_id, expires)
+    signature = hmac.new(SESSION_SECRET.encode("utf-8"), payload.encode("utf-8"), hashlib.sha256).hexdigest()
+    return payload + "." + signature
+
+
+def verify_session_token(token):
+    try:
+        account_id, expires, signature = token.split(".", 2)
+        payload = account_id + "." + expires
+        expected = hmac.new(SESSION_SECRET.encode("utf-8"), payload.encode("utf-8"), hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(signature, expected):
+            return None
+        if int(expires) < int(time.time()):
+            return None
+        return int(account_id)
+    except (ValueError, AttributeError):
+        return None
+
+
 # ---------------------------------------------------------------------------
 # HTTP handler
 # ---------------------------------------------------------------------------
@@ -582,12 +606,16 @@ class Handler(BaseHTTPRequestHandler):
         if not token:
             return None
         token = token.value
+        account_id = verify_session_token(token)
         conn = connect()
-        row = conn.execute(
-            "SELECT a.* FROM sessions s JOIN accounts a ON a.id = s.account_id"
-            " WHERE s.token = ? AND s.created_at >= ?",
-            (token, (local_now() - timedelta(days=SESSION_DAYS)).isoformat()),
-        ).fetchone()
+        if account_id:
+            row = conn.execute("SELECT * FROM accounts WHERE id = ?", (account_id,)).fetchone()
+        else:
+            row = conn.execute(
+                "SELECT a.* FROM sessions s JOIN accounts a ON a.id = s.account_id"
+                " WHERE s.token = ? AND s.created_at >= ?",
+                (token, (local_now() - timedelta(days=SESSION_DAYS)).isoformat()),
+            ).fetchone()
         conn.close()
         return row
 
@@ -849,15 +877,9 @@ class Handler(BaseHTTPRequestHandler):
             register_attempt(client_ip(self))
             raise ApiError(401, "Passcode tidak dikenali. Periksa kembali kode organisasi Anda.")
         LOGIN_ATTEMPTS.pop(client_ip(self), None)
-        token = secrets.token_urlsafe(32)
-        conn.execute("DELETE FROM sessions WHERE created_at < ?",
-                     ((local_now() - timedelta(days=SESSION_DAYS)).isoformat(),))
-        conn.execute("INSERT INTO sessions (token, account_id, created_at) VALUES (?, ?, ?)",
-                     (token, found["id"], now_iso()))
-        conn.commit()
         conn.close()
         cookie = "simpenan_session=%s; Path=/; HttpOnly; SameSite=Lax; Max-Age=%d" % (
-            token, SESSION_DAYS * 86400)
+            make_session_token(found["id"]), SESSION_DAYS * 86400)
         self.send_response(200)
         payload = json.dumps({"account": account_public(found)}).encode()
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -870,7 +892,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def api_logout(self):
         token = self.cookies().get("simpenan_session")
-        if token:
+        if token and not verify_session_token(token.value):
             conn = connect()
             conn.execute("DELETE FROM sessions WHERE token = ?", (token.value,))
             conn.commit()
