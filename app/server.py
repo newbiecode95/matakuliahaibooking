@@ -7,6 +7,7 @@ Run:  python3 app/server.py
 
 import hashlib
 import hmac
+import io
 import json
 import mimetypes
 import os
@@ -14,18 +15,22 @@ import re
 import secrets
 import sqlite3
 import sys
+import threading
 import time
 import urllib.parse
 import uuid
 from datetime import datetime, timedelta, timezone
+from email.message import Message
+from http import HTTPStatus
 from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
 STATIC = BASE / "static"
-DATA = BASE / "data"
-UPLOAD_DIR = BASE / "uploads"
+VERCEL = bool(os.environ.get("VERCEL"))
+DATA = Path(os.environ.get("SIMPENAN_DATA_DIR") or ("/tmp/simpenan-data" if VERCEL else BASE / "data"))
+UPLOAD_DIR = Path(os.environ.get("SIMPENAN_UPLOAD_DIR") or ("/tmp/simpenan-uploads" if VERCEL else BASE / "uploads"))
 DB_PATH = DATA / "simpenan.db"
 
 sys.path.insert(0, str(BASE))
@@ -1248,6 +1253,111 @@ class Handler(BaseHTTPRequestHandler):
         conn.commit()
         conn.close()
         return self.send_json({"ok": True})
+
+
+class WSGIHandler(Handler):
+    def send_response(self, code, message=None):
+        self.wsgi_status = int(code)
+
+    def send_header(self, key, value):
+        self.wsgi_headers.append((str(key), str(value)))
+
+    def end_headers(self):
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "same-origin")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+
+    def log_message(self, fmt, *args):
+        sys.stderr.write("[simpenan] %s\n" % (fmt % args))
+
+
+_wsgi_ready = False
+_wsgi_lock = threading.Lock()
+
+
+def _wsgi_init():
+    global _wsgi_ready
+    if _wsgi_ready:
+        return
+    with _wsgi_lock:
+        if _wsgi_ready:
+            return
+        init_db()
+        _wsgi_ready = True
+
+
+def app(environ, start_response):
+    _wsgi_init()
+    method = (environ.get("REQUEST_METHOD") or "GET").upper()
+    path = (environ.get("SCRIPT_NAME") or "") + (environ.get("PATH_INFO") or "/")
+    query = environ.get("QUERY_STRING") or ""
+    if not path.startswith("/"):
+        path = "/" + path
+
+    try:
+        length = int(environ.get("CONTENT_LENGTH") or 0)
+    except ValueError:
+        length = 0
+    raw_body = environ["wsgi.input"].read(length) if length > 0 else b""
+
+    headers = Message()
+    for key, value in environ.items():
+        if key.startswith("HTTP_"):
+            headers[key[5:].replace("_", "-").title()] = value
+    if environ.get("CONTENT_TYPE"):
+        headers["Content-Type"] = environ["CONTENT_TYPE"]
+    if environ.get("CONTENT_LENGTH"):
+        headers["Content-Length"] = environ["CONTENT_LENGTH"]
+
+    ip = (environ.get("HTTP_X_FORWARDED_FOR") or "").split(",")[0].strip()
+    if not ip:
+        ip = environ.get("REMOTE_ADDR") or "0.0.0.0"
+
+    handler = object.__new__(WSGIHandler)
+    handler.command = method
+    handler.path = path + (("?" + query) if query else "")
+    handler.request_version = environ.get("SERVER_PROTOCOL") or "HTTP/1.1"
+    handler.headers = headers
+    handler.rfile = io.BytesIO(raw_body)
+    handler.wfile = io.BytesIO()
+    handler.client_address = (ip, 0)
+    handler.close_connection = False
+    handler.wsgi_status = 200
+    handler.wsgi_headers = []
+
+    try:
+        action = {
+            "GET": handler.do_GET,
+            "POST": handler.do_POST,
+            "PATCH": handler.do_PATCH,
+            "DELETE": handler.do_DELETE,
+        }.get(method)
+        if method == "HEAD":
+            handler.do_GET()
+        elif action:
+            action()
+        else:
+            handler.send_json({"error": "Metode tidak didukung."}, 405)
+    except Exception as exc:
+        sys.stderr.write("[simpenan] WSGI error: %s\n" % exc)
+        handler.wfile = io.BytesIO()
+        handler.wsgi_status = 500
+        handler.wsgi_headers = []
+        handler.send_json({"error": "Terjadi kesalahan pada server."}, 500)
+
+    body = handler.wfile.getvalue()
+    if method == "HEAD":
+        body = b""
+    try:
+        phrase = HTTPStatus(handler.wsgi_status).phrase
+    except ValueError:
+        phrase = "OK"
+    start_response("%d %s" % (handler.wsgi_status, phrase), handler.wsgi_headers)
+    return [body]
+
+
+application = app
 
 
 def main():
